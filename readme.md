@@ -126,6 +126,7 @@ npm run start
     │   └── ui/                # Base UI components (buttons, inputs, etc.)
     │
     ├── config/                # env config files
+    ├── proxy.ts/              # Middleware
     ├── constants/             # Global constants (e.g., imagePath)
     │
     ├── features/              # Feature-based modular architecture
