@@ -42,3 +42,4 @@ ongshak_aws
 *.tsbuildinfo
 next-env.d.ts
 
+tsconfig.tsbuildinfo
