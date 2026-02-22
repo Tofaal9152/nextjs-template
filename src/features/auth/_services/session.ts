@@ -21,7 +21,7 @@ export async function CreateSession(payload: Session): Promise<void> {
 
   cookieStore.set(SESSION_COOKIE_NAME, session, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     maxAge: SESSION_MAX_AGE_SECONDS,
     sameSite: "lax",
     path: "/",
