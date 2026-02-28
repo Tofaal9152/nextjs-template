@@ -1,5 +1,5 @@
 "use server";
-import { ResetPasswordSchema } from "@/features/auth/_schemas/reset-password.schema";
+import { ResetPasswordSchema } from "@/features/auth/_pages/reset-password/schemas/reset-password.schema";
 import { ResetPasswordType } from "@/features/auth/_types/auth.types";
 import HandleError from "@/utils/errorHandle";
 import { validateForm } from "@/utils/validateForm";

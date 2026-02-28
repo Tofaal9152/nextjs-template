@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { ResetPasswordAction } from "@/features/auth/_services/reset-password.action";
+import { ResetPasswordAction } from "@/features/auth/_pages/reset-password/services/reset-password.action";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import unAuthorizedApiClient from "@/utils/publicApiClient";
+import unAuthorizedApiClient from "@/lib/http/publicApiClient";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 

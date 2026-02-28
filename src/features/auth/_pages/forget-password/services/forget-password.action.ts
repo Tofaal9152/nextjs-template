@@ -1,10 +1,11 @@
 "use server";
 
-import { ForgotPasswordSchema } from "@/features/auth/_schemas/forget-password.schema";
+
 import { EmailSendType } from "@/features/auth/_types/auth.types";
 import HandleError from "@/utils/errorHandle";
 import { validateForm } from "@/utils/validateForm";
 import axios from "axios";
+import { ForgotPasswordSchema } from "../schemas/forget-password.schema";
 
 export const ForgotPasswordAction = async (
   previousState: EmailSendType,

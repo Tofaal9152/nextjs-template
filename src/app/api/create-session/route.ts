@@ -1,4 +1,4 @@
-import { CreateSession } from "@/features/auth/_services/session";
+import { CreateSession } from "@/lib/session";
 import { Session } from "@/features/auth/_types/auth.types";
 import { NextResponse } from "next/server";
 

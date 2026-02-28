@@ -1,4 +1,4 @@
-import ConfirmEmailPage from "@/features/auth/_pages/confirm-email/ConfirmEmailPage";
+import ConfirmEmailPage from "@/features/auth/_pages/confirm-email/ui/ConfirmEmailPage";
 
 const page = async ({ params }: { params: { token: string } }) => {
   const { token } = await params;

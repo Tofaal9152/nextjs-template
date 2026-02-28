@@ -1,4 +1,4 @@
-import SlugIdPage from "@/features/marketting/_pages/blog/slug-id/SlugIdPage";
+import SlugIdPage from "@/features/marketting/_pages/blog/ui/[slugId]Page";
 
 const page = async ({ params }: { params: { slugId: string } }) => {
   const { slugId } = await params;

@@ -3,7 +3,7 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { env } from "@/config/env.server";
+import { env } from "@/lib/env.server";
 import { Session } from "@/features/auth/_types/auth.types";
 
 const encodedKey = new TextEncoder().encode(env.SESSION_SECRET_KEY);

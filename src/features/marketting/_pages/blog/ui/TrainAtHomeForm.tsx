@@ -22,10 +22,8 @@ import { FormFieldWrapper } from "@/components/shared/form-related/FormField";
 import { SubmitButton } from "@/components/shared/form-related/SubmitButton";
 import { SubmitErrorSummary } from "@/components/shared/form-related/SubmitErrorSummary";
 import { useZodTanstackForm } from "@/hooks/useZodTanstackForm";
-import {
-  TrainerAtHomeSchema,
-  useTrainerAtHomeMutation,
-} from "../../_services/trainAtHome.service";
+import { TrainerAtHomeSchema } from "../_schemas/trainAtHome.schema";
+import { useTrainerAtHomeMutation } from "../_services/trainAtHome.service";
 
 export default function TrainAtHomeForm() {
   // export default function TrainAtHomeForm() {

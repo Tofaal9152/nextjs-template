@@ -1,5 +1,5 @@
 import DashboardShell from "@/components/layout/dashboard/DashboardShell";
-import { getSession } from "@/features/auth/_services/session";
+import { getSession } from "@/lib/session";
 import { AdminSidebar } from "@/features/protected/_pages/dashboard/admin/_sidebar/AdminSidebar";
 
 export default async function AdminDashboardLayout({

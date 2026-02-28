@@ -1,8 +1,8 @@
 "use server";
-import { env } from "@/config/env.server";
+import { env } from "@/lib/env.server";
 
 import axios from "axios";
-import { destroySession, getSession } from "../features/auth/_services/session";
+import { destroySession, getSession } from "../session";
 
 const apiServer = axios.create({
   baseURL: env.BACKEND_URL,

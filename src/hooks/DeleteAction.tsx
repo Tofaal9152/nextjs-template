@@ -15,7 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { request } from "@/utils/request";
+import { request } from "@/lib/http/request";
 import { useMutationHandler } from "./useMutationHandler";
 
 interface DeleteButtonProps {

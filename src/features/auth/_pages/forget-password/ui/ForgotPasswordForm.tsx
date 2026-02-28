@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 
-import { ForgotPasswordAction } from "@/features/auth/_services/forget-password.action";
+import { ForgotPasswordAction } from "@/features/auth/_pages/forget-password/services/forget-password.action";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 

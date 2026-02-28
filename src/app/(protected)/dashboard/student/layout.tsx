@@ -1,5 +1,5 @@
 import DashboardShell from "@/components/layout/dashboard/DashboardShell";
-import { getSession } from "@/features/auth/_services/session";
+import { getSession } from "@/lib/session";
 import { StudentSidebar } from "@/features/protected/_pages/dashboard/student/_sidebar/StudentSidebar";
 
 export default async function StudentDashboardLayout({

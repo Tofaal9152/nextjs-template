@@ -6,7 +6,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { SignInAction } from "../../_services/signIn.action";
+import { SignInAction } from "../services/signIn.action";
+
 
 
 export default function SignInForm() {

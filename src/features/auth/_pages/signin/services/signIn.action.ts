@@ -1,12 +1,13 @@
 "use server";
 import { validateForm } from "@/utils/validateForm";
 import axios from "axios";
-import { LoginSchema } from "../_schemas/sign-in.schema";
-import { LoginType } from "../_types/auth.types";
+import { LoginSchema } from "../schemas/sign-in.schema";
 
-import { env } from "@/config/env.server";
-import { CreateSession } from "@/features/auth/_services/session";
+
+import { env } from "@/lib/env.server";
+import { CreateSession } from "@/lib/session";
 import HandleError from "@/utils/errorHandle";
+import { LoginType } from "@/features/auth/_types/auth.types";
 
 export const SignInAction = async (
   previousState: LoginType,

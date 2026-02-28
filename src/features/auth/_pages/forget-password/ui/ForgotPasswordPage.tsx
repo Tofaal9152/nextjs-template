@@ -1,4 +1,5 @@
-import EmailSendForm from "@/features/auth/_pages/forget-password/ForgotPasswordForm";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+
 
 const ForgotPasswordPage = () => {
   return (
@@ -10,7 +11,7 @@ const ForgotPasswordPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(35%_35%_at_70%_65%,rgba(0,229,255,0.06),transparent)]" />
       </div>
       <div className="relative z-10 flex min-h-[calc(100vh-120px)] items-center justify-center px-4 pb-14">
-        <EmailSendForm />
+        <ForgotPasswordForm />
       </div>
     </div>
   );

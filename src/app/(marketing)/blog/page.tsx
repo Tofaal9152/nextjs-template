@@ -1,4 +1,4 @@
-import BlogPage from "@/features/marketting/_pages/blog/BlogPage";
+import BlogPage from "@/features/marketting/_pages/blog/ui/BlogPage";
 
 const page = () => {
   return <BlogPage />;

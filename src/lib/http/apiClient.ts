@@ -1,8 +1,8 @@
 
 import axios from "axios";
 
-import { env } from "@/config/env.client";
-import { destroySession, getSession } from "../features/auth/_services/session";
+import { env } from "@/lib/env.client";
+import { destroySession, getSession } from "../session";
 
 const apiClient = axios.create({
   baseURL: env.NEXT_PUBLIC_BACKEND_URL,

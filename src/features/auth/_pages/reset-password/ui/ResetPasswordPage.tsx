@@ -1,4 +1,5 @@
-import ResetPasswordForm from "@/features/auth/_pages/reset-password/ResetPasswordForm";
+import ResetPasswordForm from "./ResetPasswordForm";
+
 
 const ResetPasswordPage = ({ uid, token }: { uid: string; token: string }) => {
   return (

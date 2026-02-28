@@ -3,7 +3,7 @@ import { LogIn } from "lucide-react";
 import Link from "next/link";
 
 import UserMenu from "./UserMenu";
-import { getSession } from "@/features/auth/_services/session";
+import { getSession } from "@/lib/session";
 const AuthSwitcher = async () => {
   const session = await getSession();
 

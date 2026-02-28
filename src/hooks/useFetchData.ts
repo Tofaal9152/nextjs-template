@@ -1,4 +1,4 @@
-import { request } from "@/utils/request";
+import { request } from "@/lib/http/request";
 import {
   QueryKey,
   useQuery,
