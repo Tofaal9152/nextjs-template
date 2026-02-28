@@ -4,6 +4,7 @@ import React from "react";
 interface AsyncStateWrapperProps {
   loading: boolean;
   error?: string | null;
+  data?: any;
   children: React.ReactNode;
   spinnerSize?: number;
   errorFallback?: React.ReactNode;
@@ -13,6 +14,7 @@ interface AsyncStateWrapperProps {
 const AsyncStateWrapper: React.FC<AsyncStateWrapperProps> = ({
   loading,
   error,
+  data,
   children,
   spinnerSize = 24,
   errorFallback,
@@ -38,6 +40,13 @@ const AsyncStateWrapper: React.FC<AsyncStateWrapperProps> = ({
           Error: {error}
         </div>
       )
+    );
+  }
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    return (
+      <div className="text-gray-500 text-center min-h-24 p-4">
+        No data available.
+      </div>
     );
   }
 

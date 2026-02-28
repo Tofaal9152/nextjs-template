@@ -6,7 +6,7 @@ import { destroySession, getSession } from "../session";
 
 const apiServer = axios.create({
   baseURL: env.BACKEND_URL,
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 apiServer.interceptors.request.use(async (config) => {

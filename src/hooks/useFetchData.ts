@@ -19,7 +19,7 @@ export function useFetchData<T>({
 }: FetchArgs<T>): UseQueryResult<T> {
   return useQuery<T>({
     queryKey: querykey,
-    queryFn: () => request.get<T>(url),
+    queryFn: async () => request.get<T>(url),
     ...options,
   });
 }

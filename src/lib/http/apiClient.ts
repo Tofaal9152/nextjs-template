@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 import { env } from "@/lib/env.client";
@@ -24,7 +23,7 @@ apiClient.interceptors.response.use(
       await destroySession();
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;

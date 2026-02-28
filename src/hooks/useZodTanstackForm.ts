@@ -85,7 +85,6 @@ export function useZodTanstackForm<TValues extends Record<string, any>>(
 
   const resetAll = () => {
     form.reset();
-    mutation.reset();
     setSubmitErrors([]);
   };
 
