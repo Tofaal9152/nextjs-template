@@ -88,80 +88,123 @@ npm run start
 ## Project Structure
 
 ```txt
-.
+NEXTJS-TEMPLATE/
 ├── public/
-│   └── images/                # Static assets (images, icons, etc.)
+│   ├── images/
+│   └── icons/
 │
+├── middleware.ts                 # (optional) auth/protected gating
+├── next.config.js
+├── package.json
+├── tsconfig.json
+├── .env.example
 └── src/
-    ├── app/                   # Next.js App Router
-    │   ├── (marketing)/       # Public marketing routes
-    │   │   ├── (home)/        # Home page group
-    │   │   └── blog/
-    │   │       └── [slugId]/  # Dynamic blog details page
-    │   │
-    │   ├── (protected)/       # Protected routes (requires auth)
-    │   │   ├── dashboard/
-    │   │   │   ├── admin/     # Admin dashboard
-    │   │   │   └── student/   # Student dashboard
-    │   │   └── profile/       # User profile
-    │   │
-    │   ├── api/               # API route handlers
-    │   │   └── create-session/
-    │   │
-    │   └── auth/              # Authentication routes
-    │       ├── (confirm-email)/
-    │       ├── (reset-password)/
-    │       ├── forget-password/
-    │       ├── signin/
-    │       └── verify-email/
-    │
-    ├── components/            # Reusable UI & layout components
-    │   ├── layout/
-    │   │   ├── dashboard/
-    │   │   │   └── AppSidebar/
-    │   │   ├── Footer/
-    │   │   └── Navbar/
-    │   ├── shared/
-    │   │   └── form-related/  # Shared form components
-    │   └── ui/                # Base UI components (buttons, inputs, etc.)
-    │
-    ├── config/                # env config files
-    ├── proxy.ts/              # Middleware
-    ├── constants/             # Global constants (e.g., imagePath)
-    │
-    ├── features/              # Feature-based modular architecture
-    │   ├── auth/
-    │   │   ├── _components/
-    │   │   ├── _pages/
-    │   │   ├── _schemas/
-    │   │   ├── _services/
-    │   │   └── _types/
-    │   │
-    │   ├── marketting/
-    │   │   ├── _components/
-    │   │   ├── _pages/
-    │   │   ├── _schemas/
-    │   │   └── _services/
-    │   │
-    │   └── protected/
-    │       ├── _components/
-    │       ├── _pages/
-    │       │   ├── dashboard/
-    │       │   │   ├── admin/
-    │       │   │   └── student/
-    │       │   ├── profile/
-    │       ├── _schemas/
-    │       └── _services/
-    │
-    ├── hooks/                 # Custom React hooks
-    ├── lib/                   # Library setups (axios, auth, etc.)
-    ├── providers/             # Context providers (Theme, Auth, etc.)
-    ├── services/              # Global services (API calls)
-    ├── types/                 # Global TypeScript types
-    └── utils/                 # Utility/helper functions
-    │
-    ├── .env.example           # Example env vars (committed)
-    └── .env                   # Local env vars (ignored)
+   ├── app/                       # App Router (routing only)
+   │  ├── (marketing)/
+   │  │  ├── layout.tsx
+   │  │  ├── page.tsx             # home (or (home)/page.tsx if you prefer)
+   │  │  └── blog/
+   │  │     ├── page.tsx          # /blog
+   │  │     └── [slugId]/
+   │  │        ├── page.tsx       # /blog/[slugId]
+   │  │        ├── loading.tsx
+   │  │        └── not-found.tsx
+   │  │
+   │  ├── (auth)/
+   │  │  ├── layout.tsx
+   │  │  ├── signin/page.tsx
+   │  │  ├── forget-password/page.tsx
+   │  │  ├── verify-email/page.tsx
+   │  │  ├── email/confirm/[token]/page.tsx
+   │  │  └── password/reset/confirm/[uid]/[token]/page.tsx
+   │  │
+   │  ├── (protected)/
+   │  │  ├── layout.tsx           # sidebar/topbar shell
+   │  │  ├── dashboard/
+   │  │  │  ├── admin/page.tsx
+   │  │  │  └── student/page.tsx
+   │  │  └── profile/page.tsx
+   │  │
+   │  ├── api/
+   │  │  └── create-session/
+   │  │     └── route.ts
+   │  │
+   │  ├── layout.tsx
+   │  ├── globals.css
+   │  └── not-found.tsx
+   │
+   ├── components/                # reusable shared components
+   │  ├── ui/                      # design system components
+   │  ├── layout/
+   │  │  ├── Navbar/
+   │  │  ├── Footer/
+   │  │  └── dashboard/
+   │  │     └── AppSidebar/
+   │  └── shared/
+   │     └── form-related/
+   │
+   ├── features/                  # business modules (main maintainable layer)
+   │  ├── blog/
+   │  │  ├── ui/
+   │  │  │  ├── BlogIndexRoute.tsx     # for /blog
+   │  │  │  └── BlogSlugRoute.tsx      # for /blog/[slugId]
+   │  │  ├
+   │  │  │  
+   │  │  ├── services/
+   │  │  │  └── blog.service.ts
+   │  │  ├── schemas/
+   │  │  │  └── blog.schema.ts
+   │  │  ├── types.ts
+   │  │  └── index.ts
+   │  │
+   │  ├── auth/
+   │  │  ├── ui/
+   │  │  │  ├── SignInRoute.tsx
+   │  │  │  ├── ForgetPasswordRoute.tsx
+   │  │  │  └── ResetPasswordRoute.tsx
+   │  │  ├
+   │  │  │  
+   │  │  ├── services/
+   │  │  │  └── auth.service.ts
+   │  │  ├── schemas/
+   │  │  │  ├── signin.schema.ts
+   │  │  │  ├── forget-password.schema.ts
+   │  │  │  └── reset-password.schema.ts
+   │  │  ├── types.ts
+   │  │  └── index.ts
+   │  │
+   │  └── protected/
+   │     ├── dashboard/
+   │     │  ├── admin/
+   │     │  │  ├── ui/AdminDashboardRoute.tsx
+   │     │  │  ├
+   │     │  │  └
+   │     │  └── student/
+   │     │     ├── ui/StudentDashboardRoute.tsx
+   │     │     ├
+   │     │     └── services/student.service.ts
+   │     └── profile/
+   │        ├── ui/ProfileRoute.tsx
+   │        ├
+   │        └── services/profile.service.ts
+   │
+   ├── lib/
+   │  ├── http/
+   │  │  ├── apiClient.ts            # fetch/axios wrapper, interceptors
+   │  │  ├── apiServer.ts            # fetch/axios wrapper, interceptors
+   │  │  ├── publicServer.ts         
+   │  │  ├── request.ts             
+   │  │  ├── errors.ts
+   │  │  
+   │  ├── env.ts                  # zod env validation (optional)
+   │  └── utils.ts
+   │
+   ├── hooks/
+   ├── providers/
+   ├── constants/
+   ├── store/                     # if redux/zustand needed
+   ├── types/                     # ONLY truly global cross-feature types
+   └── utils/
 ```
 
 
