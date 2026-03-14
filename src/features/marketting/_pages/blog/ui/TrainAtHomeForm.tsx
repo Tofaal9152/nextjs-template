@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { FormFieldWrapper } from "@/components/shared/form-related/FormField";
+import { FormFieldWrapper } from "@/components/shared/form-related/FormFieldWrapper";
 import { SubmitButton } from "@/components/shared/form-related/SubmitButton";
 import { SubmitErrorSummary } from "@/components/shared/form-related/SubmitErrorSummary";
 import { useZodTanstackForm } from "@/hooks/useZodTanstackForm";

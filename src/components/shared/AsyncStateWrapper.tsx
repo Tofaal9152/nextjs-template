@@ -42,13 +42,6 @@ const AsyncStateWrapper: React.FC<AsyncStateWrapperProps> = ({
       )
     );
   }
-  if (!data || (Array.isArray(data) && data.length === 0)) {
-    return (
-      <div className="text-gray-500 text-center min-h-24 p-4">
-        No data available.
-      </div>
-    );
-  }
 
   return <>{children}</>;
 };
