@@ -3,12 +3,13 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { env } from "@/lib/env.server";
+import { env } from "@/lib/env";
 import { Session } from "@/features/auth/_types/auth.types";
 
 const encodedKey = new TextEncoder().encode(env.SESSION_SECRET_KEY);
 const SESSION_COOKIE_NAME = env.SESSION_COOKIE_NAME ?? "__myapp_session";
-const SESSION_MAX_AGE_SECONDS = (env.SESSION_MAX_AGE_DAYS ?? 7) * 24 * 60 * 60;
+const SESSION_MAX_AGE_SECONDS =
+  Number(env.SESSION_MAX_AGE_DAYS ?? 7) * 24 * 60 * 60;
 
 export async function CreateSession(payload: Session): Promise<void> {
   const session = await new SignJWT(payload)

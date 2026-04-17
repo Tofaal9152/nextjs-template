@@ -6,6 +6,7 @@ import HandleError from "@/utils/errorHandle";
 import { validateForm } from "@/utils/validateForm";
 import axios from "axios";
 import { ForgotPasswordSchema } from "../schemas/forget-password.schema";
+import { env } from "@/lib/env";
 
 export const ForgotPasswordAction = async (
   previousState: EmailSendType,
@@ -22,7 +23,7 @@ export const ForgotPasswordAction = async (
       email: formData.get("email"),
     };
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/rest-auth/password/reset/`,
+      `${env.BACKEND_URL}/rest-auth/password/reset/`,
       payload,
       { withCredentials: true }
     );

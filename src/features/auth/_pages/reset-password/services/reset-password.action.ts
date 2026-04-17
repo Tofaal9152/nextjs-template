@@ -3,7 +3,7 @@ import { ResetPasswordSchema } from "@/features/auth/_pages/reset-password/schem
 import { ResetPasswordType } from "@/features/auth/_types/auth.types";
 import HandleError from "@/utils/errorHandle";
 import { validateForm } from "@/utils/validateForm";
-
+import { env } from "@/lib/env";
 import axios from "axios";
 
 export const ResetPasswordAction = async (
@@ -25,7 +25,7 @@ export const ResetPasswordAction = async (
     };
 
     await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/rest-auth/password/reset/confirm/`,
+      `${env.BACKEND_URL}/rest-auth/password/reset/confirm/`,
       payload,
       {
         withCredentials: true,

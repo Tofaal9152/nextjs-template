@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import { env } from "@/lib/env.client";
 import { destroySession, getSession } from "../session";
+import { env } from "@/lib/env";
 
 const apiClient = axios.create({
-  baseURL: env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: env.BACKEND_URL,
   // withCredentials: true,
 });
 

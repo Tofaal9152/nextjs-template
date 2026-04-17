@@ -1,27 +1,11 @@
 "use client";
 
-import isProd from "@/lib/isProd";
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 
 export default function QueryProvider({ children }: { children: ReactNode }) {
   const [client] = useState(() => {
     return new QueryClient({
-      queryCache: new QueryCache({
-        onError: (error, query) => {
-          // production friendly logging (you can wire Sentry here)
-          if (!isProd()) {
-            console.error("[ReactQuery error]", {
-              queryKey: query.queryKey,
-              error,
-            });
-          }
-        },
-      }),
       defaultOptions: {
         queries: {
           // ✅ your requirement: 1 minute within same query => no API call

@@ -1,7 +1,7 @@
 const HomePage = () => {
     return (
         <div>
-            Home page
+            Home page 2 check concurrency2
         </div>
     );
 }

@@ -3,8 +3,7 @@ import { validateForm } from "@/utils/validateForm";
 import axios from "axios";
 import { LoginSchema } from "../schemas/sign-in.schema";
 
-
-import { env } from "@/lib/env.server";
+import { env } from "@/lib/env";
 import { CreateSession } from "@/lib/session";
 import HandleError from "@/utils/errorHandle";
 import { LoginType } from "@/features/auth/_types/auth.types";

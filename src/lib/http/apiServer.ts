@@ -1,5 +1,5 @@
 "use server";
-import { env } from "@/lib/env.server";
+import { env } from "@/lib/env";
 
 import axios from "axios";
 import { destroySession, getSession } from "../session";
@@ -25,7 +25,7 @@ apiServer.interceptors.response.use(
       await destroySession();
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiServer;
