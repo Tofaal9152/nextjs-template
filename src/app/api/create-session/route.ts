@@ -1,5 +1,5 @@
-import { CreateSession } from "@/lib/session";
-import { Session } from "@/features/auth/_types/auth.types";
+﻿import { CreateSession } from "@/features/auth/utils/session";
+import { Session } from "@/features/auth/types/auth.types";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

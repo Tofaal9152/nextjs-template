@@ -1,6 +1,6 @@
-import DashboardShell from "@/components/layout/dashboard/DashboardShell";
-import { getSession } from "@/lib/session";
-import { AdminSidebar } from "@/features/protected/_pages/dashboard/admin/_sidebar/AdminSidebar";
+﻿import { getSession } from "@/features/auth/utils/session";
+import { AdminSidebar } from "@/features/protected/pages/dashboard/admin/sidebar/admin-sidebar";
+import DashboardShell from "@/features/protected/pages/dashboard/shared/components/dashboard-shell";
 
 export default async function AdminDashboardLayout({
   children,

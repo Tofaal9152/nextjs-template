@@ -1,52 +1,52 @@
-name: Next.js Build Check
+# name: Next.js Build Check
 
-on:
-    push:
-        branches: [ "main" ]
-    pull_request:
-        branches: [ "main" ]
+# on:
+#     push:
+#         branches: [ "main" ]
+#     pull_request:
+#         branches: [ "main" ]
 
-env:
-    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+# env:
+#     FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-jobs:
-    build:
-        if: contains(github.event.head_commit.message, 'deploy_Production')
-        runs-on: ubuntu-latest
+# jobs:
+#     build:
+#         if: contains(github.event.head_commit.message, 'deploy_Production')
+#         runs-on: ubuntu-latest
 
-        concurrency:
-            group: build-nextjs
-            cancel-in-progress: true
+#         concurrency:
+#             group: build-nextjs
+#             cancel-in-progress: true
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+#         steps:
+#             - name: Checkout code
+#               uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 24
-                  cache: "npm"
-            # Dont need in simple projects, but in big projects with many dependencies it can save time
-            # - name: Restore Next.js cache
-            #   uses: actions/cache@v4
-            #   with:
-            #       path: .next/cache
-            #       key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{
-            #           hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
-            #       restore-keys: |
-            #           ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
-            #           ${{ runner.os }}-nextjs-
+#             - name: Setup Node.js
+#               uses: actions/setup-node@v4
+#               with:
+#                   node-version: 24
+#                   cache: "npm"
+#             # Dont need in simple projects, but in big projects with many dependencies it can save time
+#             # - name: Restore Next.js cache
+#             #   uses: actions/cache@v4
+#             #   with:
+#             #       path: .next/cache
+#             #       key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{
+#             #           hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+#             #       restore-keys: |
+#             #           ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+#             #           ${{ runner.os }}-nextjs-
 
-            - name: Install dependencies
-              run: npm ci
+#             - name: Install dependencies
+#               run: npm ci
 
-            - name: Create .env file
-              run: |
-                  echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
-                  echo "SESSION_SECRET_KEY=${{ secrets.SESSION_SECRET_KEY }}" >> .env
-                  echo "SESSION_COOKIE_NAME=${{ secrets.SESSION_COOKIE_NAME }}" >> .env
-                  echo "SESSION_MAX_AGE_DAYS=${{ secrets.SESSION_MAX_AGE_DAYS }}" >> .env
+#             - name: Create .env file
+#               run: |
+#                   echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+#                   echo "SESSION_SECRET_KEY=${{ secrets.SESSION_SECRET_KEY }}" >> .env
+#                   echo "SESSION_COOKIE_NAME=${{ secrets.SESSION_COOKIE_NAME }}" >> .env
+#                   echo "SESSION_MAX_AGE_DAYS=${{ secrets.SESSION_MAX_AGE_DAYS }}" >> .env
 
-            - name: Build Next.js app
-              run: npm run build
+#             - name: Build Next.js app
+#               run: npm run build

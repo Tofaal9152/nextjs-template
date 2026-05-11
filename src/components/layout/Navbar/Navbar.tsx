@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/shared/theme-toggle";
+﻿import { ModeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,8 +9,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { imagePath } from "@/constants/imagePath";
-import SignOut from "@/features/auth/_pages/signout/SignOut";
+import { imagePath } from "@/constants/image-path";
+import SignOut from "@/features/auth/components/sign-out";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

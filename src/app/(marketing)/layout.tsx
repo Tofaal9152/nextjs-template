@@ -1,5 +1,5 @@
-import Footer from "@/components/layout/Footer/Footer";
-import Navbar from "@/components/layout/Navbar/Navbar";
+import Footer from "@/components/layout/footer/footer";
+import Navbar from "@/components/layout/navbar/navbar";
 
 export default function MarkettingLayout({
   children,

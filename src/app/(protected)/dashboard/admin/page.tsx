@@ -1,4 +1,4 @@
-import DashboardPageLayout from "@/components/layout/dashboard/DashboardPageLayout";
+﻿import DashboardPageLayout from "@/features/protected/pages/dashboard/shared/components/dashboard-page-layout";
 
 export default function DashboardAdminPage() {
   return (

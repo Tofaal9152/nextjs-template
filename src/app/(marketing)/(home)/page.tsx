@@ -1,7 +1,7 @@
-import HomePage from "@/features/marketting/_pages/home/ui/HomePage";
+﻿import HomeIndex from "@/features/marketing/home";
 
 const page = () => {
-  return <HomePage />;
+  return <HomeIndex />;
 };
 
 export default page;

@@ -1,7 +1,7 @@
-import BlogPage from "@/features/marketting/_pages/blog/ui/BlogPage";
+﻿import BlogIndex from "@/features/marketing/blog/blog";
 
 const page = () => {
-  return <BlogPage />;
+  return <BlogIndex />;
 };
 
 export default page;

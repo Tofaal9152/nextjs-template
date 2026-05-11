@@ -1,4 +1,4 @@
-import apiClient from "./apiClient";
+﻿import apiClient from "./api-client";
 
 export const request = {
   get: async <T = unknown>(url: string): Promise<T> => {
