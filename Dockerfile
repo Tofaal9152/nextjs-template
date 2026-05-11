@@ -16,10 +16,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Only NODE_ENV is needed at build time (next.config.ts uses it for removeConsole).
 # All other vars (secrets, URLs) are injected at runtime by docker-compose — never baked in.
-ARG NODE_ENV=production
-ENV NODE_ENV=$NODE_ENV
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV DOCKER_ENV="true"
 # Runs: tsc --noEmit && next build --turbopack
@@ -30,7 +27,6 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"

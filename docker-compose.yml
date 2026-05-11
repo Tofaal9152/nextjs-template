@@ -3,15 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        NODE_ENV: ${NODE_ENV:-production}
-    image: tofa-nextjs-app-new:latest
-    container_name: my-nextjs-app-new
+    image: nextjs-template:latest
+    container_name: nextjs-template-app
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
     environment:
-      NODE_ENV: ${NODE_ENV:-production}
       BACKEND_URL: ${BACKEND_URL}
       SESSION_SECRET_KEY: ${SESSION_SECRET_KEY}
       SESSION_COOKIE_NAME: ${SESSION_COOKIE_NAME}

@@ -44,7 +44,7 @@ cp .env.example .env
 ```
 
 ```env
-NODE_ENV=development
+NODE_ENV=development # only in development mode
 BACKEND_URL=http://localhost:8000
 SESSION_SECRET_KEY=your-secret-key
 SESSION_COOKIE_NAME=session
