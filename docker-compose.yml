@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
       args:
         NODE_ENV: ${NODE_ENV:-production}
-    image: tofa-nextjs-app:latest
-    container_name: my-nextjs-app
+    image: tofa-nextjs-app-new:latest
+    container_name: my-nextjs-app-new
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:${PORT:-3000}"

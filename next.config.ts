@@ -2,7 +2,7 @@ import { env } from "@/lib/env";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+ output: !env.isDevelopment && process.env.DOCKER_ENV === 'true' ? 'standalone' : undefined,
   compiler: {
     removeConsole: !env.isDevelopment,
   },

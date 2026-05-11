@@ -21,7 +21,7 @@ COPY . .
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 ENV NEXT_TELEMETRY_DISABLED=1
-
+ENV DOCKER_ENV="true"
 # Runs: tsc --noEmit && next build --turbopack
 RUN npm run build
 
@@ -34,6 +34,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV DOCKER_ENV="true"
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs \
