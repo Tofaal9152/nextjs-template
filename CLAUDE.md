@@ -72,7 +72,6 @@ src/
 │
 ├── features/                   # All business logic
 │   └── [feature]/
-│       ├── components/         # Shared UI for this feature
 │       ├── pages/
 │       │   └── [page]/
 │       │       ├── actions/    # Server Actions (auth only)
@@ -86,7 +85,7 @@ src/
 ├── components/
 │   ├── layout/                 # footer/, navbar/, sidebar/
 │   ├── shared/                 # DataTable, DeleteMutation, AsyncStateWrapper, Pagination, form-related/
-│   └── ui/                     # shadcn/ui — do not modify
+│   └── ui/                     # shadcn/ui
 │
 ├── hooks/                      # use-fetch-data, use-mutation-handler, use-zod-tanstack-form, use-search, use-debounced-callback
 ├── lib/http/                   # api-client, api-server, public-api-client, request, make-endpoint
