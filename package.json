@@ -6,7 +6,7 @@
   "github": "www.github.com/md-tofaal-ahmed",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": " tsc --noEmit && next build --turbopack",
+    "build": "next build --turbopack",
     "start": "dotenv -e .env -- next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

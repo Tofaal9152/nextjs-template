@@ -16,18 +16,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build-time environment variables required by next.config.ts and the app
+# Only NODE_ENV is needed at build time (next.config.ts uses it for removeConsole).
+# All other vars (secrets, URLs) are injected at runtime by docker-compose — never baked in.
 ARG NODE_ENV=production
-ARG BACKEND_URL
-ARG SESSION_SECRET_KEY
-ARG SESSION_COOKIE_NAME
-ARG SESSION_MAX_AGE_DAYS
-
 ENV NODE_ENV=$NODE_ENV
-ENV BACKEND_URL=$BACKEND_URL
-ENV SESSION_SECRET_KEY=$SESSION_SECRET_KEY
-ENV SESSION_COOKIE_NAME=$SESSION_COOKIE_NAME
-ENV SESSION_MAX_AGE_DAYS=$SESSION_MAX_AGE_DAYS
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Runs: tsc --noEmit && next build --turbopack
