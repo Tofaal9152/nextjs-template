@@ -1,328 +1,160 @@
-CRITICAL RULES
+# Project Patterns & Conventions
 
-- NEVER use axios directly
-- ALWAYS use request wrapper methods
-- NEVER use useQuery/useMutation directly
-- ALWAYS use useFetchData/useMutationHandler
-- app/ routes must stay thin wrappers only
-- Business logic belongs in features/
-- Prefer Server Components unless interactivity is required
-- Add "use client" only when hooks/browser APIs/event handlers are used
-- NEVER use "any"
-- NEVER create inline query keys
-- ALWAYS define query key constants
-- ALWAYS use makeEndpoint() for query params
-- NEVER place API calls directly inside components
+## Stack
+
+- **Framework**: Next.js 15+ (App Router)
+- **Language**: TypeScript — path alias `@/` → `src/`
+- **Styling**: Tailwind CSS v4 + shadcn/ui (Radix UI)
+- **Data Fetching**: TanStack React Query v5
+- **Form**: TanStack Form v1 + Zod validation
+- **HTTP**: Axios via typed `request` wrapper (`lib/http/request.ts`)
+- **Toasts**: Sonner
+- **Auth/Session**: `jose` (JWT) in encrypted cookies
+- **Table**: TanStack React Table v8
 
 ---
 
-STACK
+## API Call Pattern
 
-- Next.js 15+ App Router
-- TypeScript ("@/" -> "src/")
-- Tailwind CSS v4
-- shadcn/ui + Radix UI
-- TanStack React Query v5
-- TanStack Form v1
-- Zod
-- Axios request wrapper
-- Sonner
-- jose JWT auth
-- TanStack React Table v8
+| Client | File | When to use |
+|--------|------|-------------|
+| `apiClient` | `lib/http/api-client.ts` | Client-side authenticated |
+| `apiServer` | `lib/http/api-server.ts` | Server-side authenticated (RSC, Server Actions) |
+| `publicApiClient` | `lib/http/public-api-client.ts` | Unauthenticated |
 
----
-
-ARCHITECTURE PHILOSOPHY
-
-- app/ = routing only
-- features/ = business logic
-- shared components = reusable UI
-- queries/ = data fetching + mutations
-- schemas/ = zod validation
-- actions/ = server actions
-- Keep components small and composable
+- Never call Axios directly — always use `request.get/post/put/patch/delete/postFormData`
+- `apiClient` request interceptor: attaches `Authorization: Bearer <token>` from session
+- `apiClient` response interceptor: on 401 → calls `destroySession()` automatically
+- Build query strings with `makeEndpoint(baseUrl, paramsObj)` — skips null/undefined/`""` values automatically
 
 ---
 
-API CLIENTS
+## Data Fetching Pattern
 
-apiClient -> authenticated client-side
-apiServer -> authenticated server-side
-publicApiClient -> unauthenticated
+- Always use `useFetchData` hook — never call `useQuery` directly in feature code
+- Signature: `useFetchData<T>({ url, querykey, options })`
+- Query key convention: `[SCREAMING_SNAKE_CASE_CONSTANT, paramsObject]`
+- Define the key constant at the top of the query file: `export const BLOG_DETAILS_QUERY_KEY = "blog-details"`
+- Pass the full params object as the second key element so React Query refetches on change
 
-Rules:
-
-- NEVER call axios directly
-- ALWAYS use request wrapper
-
-Allowed methods:
-
-request.get()
-request.post()
-request.put()
-request.patch()
-request.delete()
-request.postFormData()
-
-Query params:
-
-makeEndpoint("/blogs/", params)
-
-Behavior:
-
-- apiClient auto attaches Bearer token
-- 401 automatically destroys session
+**Query defaults** (`providers/query-provider.tsx`): `staleTime` 60s · `gcTime` 10m · no refetch on focus/reconnect · no retry on 400/401/403/404
 
 ---
 
-DATA FETCHING
+## Mutation Pattern
 
-NEVER:
-
-useQuery(...)
-
-ALWAYS:
-
-useFetchData<T>({
-  url,
-  querykey,
-  options,
-})
-
-Query key pattern:
-
-export const BLOG_DETAILS_QUERY_KEY = "blog-details"
-
-[BLOG_DETAILS_QUERY_KEY, params]
-
-Rules:
-
-- First key item = constant
-- Second key item = params object
-- NEVER inline query keys
-
-Default query behavior:
-
-staleTime = 60s
-gcTime = 10m
-no refetch on focus/reconnect
-no retry on 400/401/403/404
+- Always use `useMutationHandler` — never call `useMutation` directly in feature code
+- Key options: `mutationFn`, `invalidateKeys` (array of QueryKeys), `successMessage`, `errorMessage`, `showSuccessToast` (default true), `showErrorToast` (default true), `debugLabel` (required), `onSuccess`, `onError`
+- Success toast: `toast()` with `icon: "✅"` at `top-center`
+- Error toast: `toast.error()` with `icon: "❌"` at `top-center`; message from `error.response?.data?.message` or `errorMessage`
+- `invalidateKeys` is busted after every successful mutation
 
 ---
 
-MUTATIONS
+## Table Pattern
 
-NEVER:
-
-useMutation(...)
-
-ALWAYS:
-
-useMutationHandler({
-  mutationFn,
-  invalidateKeys,
-  successMessage,
-  debugLabel,
-})
-
-Rules:
-
-- debugLabel required
-- invalidateKeys required when applicable
-- success toast uses ✅
-- error toast uses ❌
-- invalidate queries after success
-
-Examples:
-
-useMutationHandler({
-  mutationFn: (data) => request.post("/blogs/", data),
-  invalidateKeys: [[BLOGS_QUERY_KEY]],
-  successMessage: "Blog created",
-  debugLabel: "create-blog",
-})
-
-File upload:
-
-request.postFormData("/upload/", formData)
+- Library: TanStack React Table v8 via shared `<DataTable>` component
+- Columns defined as `ColumnDef<T>[]` in a separate `[name]-column.tsx` file
+- `<DataTable data columns loading error />` — loading shows spinner, error shows message
+- `<Pagination page total onPageChange />` — `total` is item count (divided by 10 internally)
+- Search/filter state lives in the table component as `useState`; passed into the query hook's params object
 
 ---
 
-TABLE PATTERN
+## File Structure Pattern
 
-Use:
-
-<DataTable />
-<Pagination />
-
-Rules:
-
-- Columns live in separate "*-column.tsx"
-- Use "ColumnDef<T>[]"
-- Search/filter state stays in table component
-- Pass params into query hook
-
-Pattern:
-
-<DataTable
-  data={data}
-  columns={columns}
-  loading={loading}
-  error={error}
-/>
-
----
-
-FORM PATTERN
-
-Preferred:
-
-TanStack Form + Zod
-
-Use:
-
-useZodTanstackForm({
-  defaultValues,
-  schema,
-  mutation,
-  fieldLabels,
-})
-
-Field pattern:
-
-<form.Field name="title">
-  {(field) => (
-    <FormFieldWrapper field={field} label="Title">
-      {(p) => <Input {...p.inputProps} />}
-    </FormFieldWrapper>
-  )}
-</form.Field>
-
-Rules:
-
-- Schemas live in "schemas/"
-- Export schema + inferred type
-- Use SubmitErrorSummary
-- Use SubmitButton
-
-Auth pages only:
-
-useActionState + Server Actions
-
----
-
-FILE STRUCTURE
-
+```
 src/
-├── app/
-├── features/
+├── app/                        # Thin wrappers only — import from features/
+│   ├── (auth)/                 # Unauthenticated route group
+│   ├── (marketing)/            # Public route group
+│   └── (protected)/            # Authenticated route group
+│
+├── features/                   # All business logic
+│   └── [feature]/
+│       ├── pages/
+│       │   └── [page]/
+│       │       ├── actions/    # Server Actions (auth only)
+│       │       ├── components/ # Page-specific UI
+│       │       ├── queries/    # useFetchData + useMutationHandler hooks
+│       │       ├── schemas/    # Zod schemas
+│       │       └── index.tsx   # Page entry point
+│       ├── types/
+│       └── utils/
+│
 ├── components/
-├── hooks/
-├── lib/http/
-├── providers/
-├── services/
-├── types/
-└── utils/
+│   ├── layout/                 # footer/, navbar/, sidebar/
+│   ├── shared/                 # DataTable, DeleteMutation, AsyncStateWrapper, Pagination, form-related/
+│   └── ui/                     # shadcn/ui
+│
+├── hooks/                      # use-fetch-data, use-mutation-handler, use-zod-tanstack-form, use-search, use-debounced-callback
+├── lib/http/                   # api-client, api-server, public-api-client, request, make-endpoint
+├── providers/                  # app-providers, query-provider, theme-provider
+├── types/                      # crud.type, dynamic-route-id-params.type, query.type
+├── utils/                      # validate-form, error-handle, form-errors, date-format, get-error-message
+└── services/                   # upload-file.service
+```
 
-Feature structure:
-
-features/[feature]/
-├── pages/
-├── types/
-├── utils/
-
-Page structure:
-
-pages/[page]/
-├── actions/
-├── components/
-├── queries/
-├── schemas/
-└── index.tsx
+- `app/` page files are single-line wrappers: `import XIndex from "@/features/..."; export default () => <XIndex />;`
+- Protected layouts call `getSession()` server-side and pass session into the sidebar component, then wrap children in `<DashboardShell>`
 
 ---
 
-APP ROUTE RULE
+## Form Pattern
 
-Page wrappers must stay thin:
+**Pattern A — TanStack Form + Zod** (use for all API mutation forms):
+- `useZodTanstackForm({ defaultValues, schema, mutation, fieldLabels })` returns `{ form, resetAll, submitErrors }`
+- Fields use `<form.Field name="x">{(field) => <FormFieldWrapper field={field} label="X">{(p) => <Input {...p.inputProps} />}</FormFieldWrapper>}</form.Field>`
+- `p.inputProps` spreads id/name/value/onBlur/onChange/aria-invalid onto the input
+- `p.onChangeValue(val)` for non-native inputs (select, checkbox, etc.)
+- Show validation errors with `<SubmitErrorSummary errors={submitErrors} />`
+- Submit with `<SubmitButton isLoading={mutation.isPending}>`
+- Zod schema lives in `schemas/[name].schema.ts`; export both schema and `type X = z.infer<typeof XSchema>`
 
-import BlogIndex from "@/features/blog/pages/blog"
-
-export default function Page() {
-  return <BlogIndex />
-}
-
----
-
-NAMING CONVENTIONS
-
-Files/Folders -> kebab-case
-Components -> PascalCase
-Hooks -> camelCase with use prefix
-Query Keys -> SCREAMING_SNAKE_CASE
-Schemas -> PascalCase + Schema
-Server Actions -> PascalCase + Action
-
-Examples:
-
-use-fetch-data.ts
-BlogTable.tsx
-BLOGS_QUERY_KEY
-BlogSchema
-SignInAction
+**Pattern B — Server Actions + `useActionState`** (auth pages only — signin, forgot-password, reset-password):
+- `"use server"` action validates with `validateForm(Schema, formData)`, calls API, creates session, returns `{ success, errors }`
+- Form uses `useActionState(MyAction, { errors: {} })` and binds `action={action}`
 
 ---
 
-NEW PAGE CHECKLIST
+## Coding Conventions
 
-1. Create feature page structure
-2. Add queries/
-3. Add schemas/
-4. Add components/
-5. Add query key constant
-6. Add DataTable
-7. Add Pagination
-8. Add thin app/ wrapper
-9. Add sidebar nav item
+| Thing | Convention | Example |
+|-------|-----------|---------|
+| Files & folders | kebab-case | `use-fetch-data.ts`, `blog-details-table.tsx` |
+| Components | PascalCase | `function BlogForm()` |
+| Hooks | camelCase, `use` prefix | `useFetchData` |
+| Query key constants | SCREAMING_SNAKE_CASE | `BLOG_DETAILS_QUERY_KEY` |
+| Types/Interfaces | PascalCase | `type BlogData` |
+| Server Actions | PascalCase + `Action` suffix | `SignInAction` |
+| Zod schemas | PascalCase + `Schema` suffix | `BlogSchema` |
+| Next.js special files | unchanged | `page.tsx`, `layout.tsx`, `loading.tsx` |
 
----
-
-API PATTERNS
-
-GET:
-
-useFetchData<Response>({
-  url: makeEndpoint("/path/", params),
-  querykey: [KEY, params],
-})
-
-POST:
-
-useMutationHandler({
-  mutationFn: (data) => request.post("/path/", data),
-  invalidateKeys: [[KEY]],
-  debugLabel: "create-item",
-})
-
-DELETE:
-
-useMutationHandler({
-  mutationFn: () => request.delete("/path/id/"),
-  invalidateKeys: [[KEY]],
-  debugLabel: "delete-item",
-})
+- Add `"use client"` to any file using hooks, browser APIs, or event handlers
+- Omit `"use client"` on layouts that fetch session or pure server wrappers
 
 ---
 
-DO NOT
+## When Adding a New Page
 
-- Do not use axios directly
-- Do not use useQuery/useMutation directly
-- Do not place business logic in app/
-- Do not fetch directly inside UI components
-- Do not use inline query keys
-- Do not use "any"
-- Do not mix server/client patterns
-- Do not skip query invalidation
-- Do not create giant components
-- Do not duplicate API logic
+1. Create `src/features/[domain]/pages/[page]/` with subfolders: `components/`, `queries/`, `schemas/`
+2. Create `queries/use-[resource].ts` — export a `QUERY_KEY` constant + `useFetchData` hook
+3. Create `components/[resource]-column.tsx` — export `ColumnDef<T>[]` array
+4. Create `components/[resource]-table.tsx` — manage `page`/`search` state, call query hook, render `<DataTable>` + `<Pagination>`
+5. Create `index.tsx` — page entry point, imports the table component
+6. Create `app/(protected)/dashboard/.../page.tsx` — single-line wrapper importing from `features/`
+7. Add nav item to `[role]-sidebar-nav-items.ts`
+
+---
+
+## When Adding a New API Call
+
+**GET**: `useFetchData<ResponseType>({ url: makeEndpoint("/path/", params), querykey: [KEY, params] })`
+
+**POST/PUT/PATCH**: `useMutationHandler({ mutationFn: (data) => request.post("/path/", data), invalidateKeys: [[KEY]], successMessage, debugLabel })`
+
+**DELETE**: `useMutationHandler({ mutationFn: () => request.delete("/path/id/"), invalidateKeys: [[KEY]], successMessage, debugLabel })`
+
+**File upload**: use `request.postFormData("/path/", formData)` as the `mutationFn`
+
+**Server Action** (auth only): `validateForm` → call API via `apiServer` → `CreateSession` → return `{ success, errors }`
