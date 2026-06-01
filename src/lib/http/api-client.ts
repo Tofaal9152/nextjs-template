@@ -1,6 +1,10 @@
 import axios from "axios";
 
-import { destroySession, getSession, updateTokens } from "../../features/auth/utils/session";
+import {
+  destroySession,
+  getSession,
+  updateTokens,
+} from "../../features/auth/utils/session";
 import { env } from "@/lib/env";
 
 const apiClient = axios.create({
@@ -44,7 +48,7 @@ apiClient.interceptors.response.use(
         // backend e refresh token pathao
         const { data } = await axios.post(
           `${env.BACKEND_URL}/get-access-token/`,
-          { refresh: session.refreshToken }
+          { refresh: session.refreshToken },
         );
 
         // session update koro new tokens diye
@@ -56,7 +60,6 @@ apiClient.interceptors.response.use(
         // original request e new token set kore retry
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
         return apiClient(originalRequest);
-
       } catch (refreshError) {
         // refresh o fail korle logout
         await destroySession();
@@ -65,6 +68,6 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 export default apiClient;
