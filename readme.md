@@ -307,3 +307,4 @@ useMutationHandler({ mutationFn: (formData) => request.postFormData("/path/", fo
 // Server Action (auth only)
 // validateForm → apiServer call → CreateSession → return { success, errors }
 ```
+OPENAI_API_KEY=sk-proj-YWNIuP0_afgvTOFAALMV0T1PH-MXiM8TFwnI3z0ARR0hGdGbJMXZIap1kub2v4JSvGvAVEcYqybEYs-YT3BlbkFJ298g0d7X0-uTGOOKjgS0lc5mkXp7nmREtbhxgmRWls7pW8uSDIXp7lYGCAlgkdkyJuEWeQwPIA
